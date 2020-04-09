@@ -7,3 +7,7 @@ Baikonur is a city in Kazakhstan, under russian administration, where it is loca
 Baikonur could also be see as a closed city open to the universe. It is a closed city because a special authorization is required to visit or leave the city located in the Kazakh steep, it is open to the universe because its space facilities are still in use nowadays for launches to the International Space Station.
 
 In this course we will have a look at a collection of algorithms that deal with space subdivision, world creation, travel and exploration, picturing our room as our personal space station.
+
+P.S.
+The course is focused on algorithms, not on a programming language. You can participate with the creative coding framework you are more familiar with: Processing, openFrameworks, three.js, paper.js, p5.js, nannou, arduino IDE, you name it.
+
