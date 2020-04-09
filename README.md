@@ -1,4 +1,4 @@
-# Algorithms in the cosmodrome.
+# Algorithms in the cosmodrome
 
 Baikonur is a city in Kazakhstan, under russian administration, where it is located the largest space facility in the world. Both Sputnik 1, the first artificial satellite, and Vostok 1, the first human spaceflight, were launched from the Baikonur Cosmododrome.
 
