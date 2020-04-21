@@ -11,3 +11,48 @@ In this course we will have a look at a collection of algorithms that deal with 
 P.S.
 The course is focused on algorithms, not on a programming language. You can participate with the creative coding framework you are more familiar with: Processing, openFrameworks, three.js, paper.js, p5.js, nannou, arduino IDE, you name it.
 
+
+## Introduction
+The course is divided in three parts, space subdivision, space exploration and space creation. In each lesson we are going to see one algorithm inherent to the the main topic.
+
+### Space Subdivision
+
+- Random subdivion in squares
+
+- Phyllotaxis
+
+- Poisson disc
+
+- Convex hull
+
+- Quadtree
+
+- Binary search tree
+
+- Voronoi
+
+### Space Exploration
+
+- Random Walker
+
+- Diffuse limited aggregation
+
+- Travelling salesman problem
+
+- 2D Ray casting
+
+- Pathfinding algorithm
+
+### Space Creation
+
+- A simple starfield
+
+- Maze generator
+
+- Sandpiles
+
+- Game of Life
+
+
+
+
