@@ -9,7 +9,7 @@ Baikonur could also be seen as a closed city opened to the universe. It is a clo
 In this course we will have a look at a collection of algorithms that deal with space subdivision, world creation, travel and exploration, picturing our room as our personal space station.
 
 P.S.
-The course is focused on algorithms, not on a programming language. You can participate with the creative coding framework you are more familiar with: Processing, openFrameworks, three.js, paper.js, p5.js, nannou, arduino IDE, you name it.
+The course is focused on algorithms, not on a programming language. A prior knowledge of a creative coding framework is required, you can participate with the creative coding framework you are more familiar with: Processing, openFrameworks, three.js, paper.js, p5.js, nannou, arduino IDE, you name it.
 
 
 ## Introduction
