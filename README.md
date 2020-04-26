@@ -54,11 +54,13 @@ The course is divided in three parts, space subdivision, space exploration and s
 - Game of Life
 
 
+## 
+
+
+
 ## Repository setup
+
 This repository is structured using canvas-sketch
-
-
-## Canvas Sketch
 
 To install it, install node js and then follow this [instruction](https://github.com/mattdesl/canvas-sketch)
 
@@ -67,6 +69,7 @@ Full documentation [here](https://github.com/mattdesl/canvas-sketch/blob/master/
 ### Useful commands
 
 To run a sketch, cd into the demo folder, run
+
 canvas-sketch mysketch.js
 
 To create a new one, in the demo folder type
@@ -78,24 +81,8 @@ To create a threejs app
 canvas-sketch my-sketch.js --new --t=three --open
 
 To create a p5js app
+
 canvas-sketch my-sketch.js --new -t=p5 --open
-
-### Build and publish
-
-
-
-You can use the --build command to generate static HTML and JS files from your sketch input. These files can be placed into your favourite web hosting solution to share your sketches online.
-
-Other examples:
-
-// Render website to 'public/' without minification
-canvas-sketch mysketch.js --dir public --build --no-compress
-
-// Render website to a single standalone file called 'index.html'
-canvas-sketch mysketch.js --name index --build --inline
-
-// Render a website using a different HTML file and custom JS src
-canvas-sketch src/index.js --html=src/page.html --js=bundle.js
 
 
 
