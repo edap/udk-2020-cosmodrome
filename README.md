@@ -10,6 +10,7 @@ In this course we will have a look at a collection of algorithms that deal with 
 
 P.S.
 The course is focused on algorithms, not on a programming language. A prior knowledge of a creative coding framework is required, you can participate with the creative coding framework you are more familiar with: Processing, openFrameworks, three.js, paper.js, p5.js, nannou, arduino IDE, you name it.
+The examples will be in p5.js
 
 
 ## Introduction
@@ -54,36 +55,8 @@ The course is divided in three parts, space subdivision, space exploration and s
 - Game of Life
 
 
-## 
-
-
 
 ## Repository setup
 
-This repository is structured using canvas-sketch
-
-To install it, install node js and then follow this [instruction](https://github.com/mattdesl/canvas-sketch)
-
-Full documentation [here](https://github.com/mattdesl/canvas-sketch/blob/master/docs/cli.md)
-
-### Useful commands
-
-To run a sketch, cd into the demo folder, run
-
-canvas-sketch mysketch.js
-
-To create a new one, in the demo folder type
-
-canvas-sketch my-sketch.js --new
-
-To create a threejs app
-
-canvas-sketch my-sketch.js --new --t=three --open
-
-To create a p5js app
-
-canvas-sketch my-sketch.js --new -t=p5 --open
-
-
-
+Every exercise it has its own folder. Just open with your browser the index.html page
 
