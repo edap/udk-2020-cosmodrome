@@ -1,3 +1,4 @@
+// credits to https://generativeartistry.com/tutorials/piet-mondrian/
 const white = '#F2F5F1';
 const size = 400;
 const squares = [{
