@@ -22,15 +22,16 @@ The course is divided in three parts, space subdivision, space exploration and s
 
 - Phyllotaxis
 
+- Circle Packing
+
 - Poisson disc
 
 - Convex hull
 
+- Voronoi
+
 - Quadtree
 
-- Binary search tree
-
-- Voronoi
 
 ### Space Exploration
 

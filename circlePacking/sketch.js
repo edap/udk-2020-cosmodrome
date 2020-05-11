@@ -1,87 +1,132 @@
-// credits to https://generativeartistry.com/tutorials/circle-packing/
-// https://www.youtube.com/watch?v=XATr_jdh-44
+// Credits:
+// Daniel Shiffman
+// http://codingtra.in
+// http://patreon.com/codingtrain
+// Code for: https://youtu.be/QHEQuoIKgNE
+
+
+// Intro to object, contstructor and classes
+// Use the class to draw an array of circles
+// intro to the noLoop trick in the draw call, it stops after a while
+// draw 5 circles at time, with 20fps
+// 1 Improve the newCircle function, do not draw on top of each other.
+
+// 2, add the grow function to the Cirlce
+
+// 3, check when to grow and when to stop
+
 const circles = [];
-const minRadius = 2;
-const maxRadius = 100;
-const totalCircles = 500;
-const createCircleAttempts = 500;
-const size = 400;
- 
-// Our steps will be:
-//     Create a new Circle
-//     Check to see if the circle collides with any other circles we have.
-//     If it doesn’t collide, we will grow it slightly, and then check again if it collides.
-//     Repeat these steps until we have a collision, or we reach a “max size”
-//     Create another circle and repeat x times.
-	
+const maxAttempts = 30;
+let nCirclesPerDrawCall = 5;
+// 4const maxNumberOfCircles = 60;
 
-function createAndDrawCircle() {
-  var newCircle;
-  var circleSafeToDraw = false;
-  for(var tries = 0; tries < createCircleAttempts; tries++) {
-    newCircle = {
-      x: Math.floor(Math.random() * size),
-      y: Math.floor(Math.random() * size),
-      radius: minRadius
+function Circle(x, y) {
+  this.x = x;
+  this.y = y;
+  this.r = 1;
+  // 3 this.growing = true;
+
+  // 2
+  // this.grow = function() {
+  //   if (this.growing) {
+  //     this.r += 1;
+  //   }
+  // };
+
+  this.show = function() {
+    stroke(255);
+    noFill();
+
+    strokeWeight(2);
+    ellipse(this.x, this.y, this.r * 2, this.r * 2);
+  };
+
+  this.edges = function() {
+    return (
+      this.x + this.r >= width ||
+      this.x - this.r <= 0 ||
+      this.y + this.r >= height ||
+      this.y - this.r <= 0
+    );
+  };
+}
+
+function setup() {
+  createCanvas(640, 360);
+}
+
+function draw() {
+  background(0);
+  frameRate(20);
+
+  let count = 0;
+  let attempts = 0;
+
+  // everytime the draw function is called, try to create nCirclesPerDrawCall
+  // not try forever, just try n maxAttempts. If the circle is created, increment the count variable
+  while (count < nCirclesPerDrawCall) {
+    let newC = newCircle();
+    if (newC !== null) {
+      circles.push(newC);
+      count++;
     }
-    
-    if(doesCircleHaveACollision(newCircle)) {
-      continue;
-    } else {
-      circleSafeToDraw = true;
+    attempts++;
+    // if (attempts > maxAttempts) {
+    // 4 if (attempts > maxAttempts || circles.length > maxNumberOfCircles) {
+      noLoop();
+      console.log('finished');
       break;
     }
   }
 
-  if(!circleSafeToDraw) {
-    return;
-  }
+  // 3here grows
+  for (let i = 0; i < circles.length; i++) {
+    let circle = circles[i];
+    // 3
+    // if (circle.growing) {
+    //   if (circle.edges()) {
+    //     circle.growing = false;
+    //   } else {
+    //     for (let j = 0; j < circles.length; j++) {
+    //       let other = circles[j];
+    //       if (circle !== other) {
+    //         let d = dist(circle.x, circle.y, other.x, other.y);
+    //         let distance = circle.r + other.r;
 
-  for(var radiusSize = minRadius; radiusSize < maxRadius; radiusSize++) {
-    newCircle.radius = radiusSize;
-    if(doesCircleHaveACollision(newCircle)){
-      newCircle.radius--;
-      break;
-    } 
+    //         if (d - 2 < distance) {
+    //           circle.growing = false;
+    //           break;
+    //         }
+    //       }
+    //     }
+    //   }
+    // }
+
+    circle.show();
+    // 2
+    //circle.grow();
   }
-  // Draw the circle
-  circles.push(circle);
-  noFill();
-  circle(newCircle.x, newCircle.y, newCircle.radius);
 }
 
-function doesCircleHaveACollision(circle) {
-  for(var i = 0; i < circles.length; i++) {
-    var otherCircle = circles[i];
-    var a = circle.radius + otherCircle.radius;
-    var x = circle.x - otherCircle.x;
-    var y = circle.y - otherCircle.y;
+function newCircle() {
+  let x = random(width);
+  let y = random(height);
 
-    if (a >= Math.sqrt((x*x) + (y*y))) {
-      return true;
-    }
-  }
-  
-  if(circle.x + circle.radius >= size ||
-     circle.x - circle.radius <= 0) {
-    return true;
-  }
-    
-  if(circle.y + circle.radius >= size ||
-      circle.y - circle.radius <= 0) {
-    return true;
-  }
-  
-  return false;
+  // 1
+  // let valid = true;
+  // for (let i = 0; i < circles.length; i++) {
+  //   let circle = circles[i];
+  //   let d = dist(x, y, circle.x, circle.y);
+  //   if (d < circle.r) {
+  //     valid = false;
+  //     break;
+  //   }
+  // }
+  // if (valid) {
+  //   return new Circle(x, y);
+  // } else {
+  //   return null;
+  // }
+
+  return new Circle(x,y);
 }
-
-function setup(){
-  createCanvas(size, size);
-  noLoop();
-};
-
-function draw(){
-  for(let i = 0; i < totalCircles; i++ ) {  
-    createAndDrawCircle();
-  }
-};
