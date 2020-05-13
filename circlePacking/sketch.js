@@ -5,15 +5,16 @@
 // Code for: https://youtu.be/QHEQuoIKgNE
 
 
-// Intro to object, contstructor and classes
+// Intro to object, contstructor and classes. Create the circle class and fill an array.
+// Good reference to OOP https://processing.org/tutorials/objects/, p5 https://p5js.org/examples/objects-objects.html
 // Use the class to draw an array of circles
+// 2, add the grow function to the Cirlce
+// 3, check when to grow and when to stop. Exaplin the function "edges"
 // intro to the noLoop trick in the draw call, it stops after a while
 // draw 5 circles at time, with 20fps
+// I do not want to draw circle on top of each other, and I do want to stop them to grow if they touch another circle.
 // 1 Improve the newCircle function, do not draw on top of each other.
-
-// 2, add the grow function to the Cirlce
-
-// 3, check when to grow and when to stop
+// 4 check for collision with other circles, explain how, using the distance and the radius
 
 const circles = [];
 const maxAttempts = 30;
@@ -76,7 +77,7 @@ function draw() {
       noLoop();
       console.log('finished');
       break;
-    }
+    //}
   }
 
   // 3here grows
@@ -87,9 +88,10 @@ function draw() {
     //   if (circle.edges()) {
     //     circle.growing = false;
     //   } else {
+    // 4
     //     for (let j = 0; j < circles.length; j++) {
     //       let other = circles[j];
-    //       if (circle !== other) {
+    //       if (circle !== other) { // this is tricky, explain why
     //         let d = dist(circle.x, circle.y, other.x, other.y);
     //         let distance = circle.r + other.r;
 
