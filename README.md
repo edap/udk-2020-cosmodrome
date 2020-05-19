@@ -24,6 +24,8 @@ The course is divided in three parts, space subdivision, space exploration and s
 
 - Circle Packing
 
+- 10 Print
+
 - Poisson disc
 
 - Convex hull
