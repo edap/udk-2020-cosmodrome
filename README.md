@@ -14,6 +14,7 @@ The examples will be in p5.js
 
 
 ## Introduction
+
 The course is divided in three parts, space subdivision, space exploration and space creation. In each lesson we are going to see one algorithm inherent to the the main topic.
 
 ### Space Subdivision
@@ -26,14 +27,6 @@ The course is divided in three parts, space subdivision, space exploration and s
 
 - 10 Print
 
-- Poisson disc
-
-- Convex hull
-
-- Voronoi
-
-- Quadtree
-
 
 ### Space Exploration
 
@@ -41,9 +34,9 @@ The course is divided in three parts, space subdivision, space exploration and s
 
 - Diffuse limited aggregation
 
-- Travelling salesman problem
-
 - 2D Ray casting
+
+- Travelling salesman problem
 
 - Pathfinding algorithm
 
