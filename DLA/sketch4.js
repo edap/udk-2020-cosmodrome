@@ -94,7 +94,7 @@ function draw() {
         }
     }
 
-    //ending condition
+    // ending condition
     // while (walkers.length < maxWalkers) {
     while (walkers.length < maxWalkers && radius > 1) {
         walkers.push(new Walker());
