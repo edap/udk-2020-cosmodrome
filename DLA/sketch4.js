@@ -102,7 +102,7 @@ function draw() {
         }
     }
 
-
+    // stop to add new walkers if the radius is too small
     while (walkers.length < maxWalkers && radius > 1) {
         walkers.push(new Walker());
     }
