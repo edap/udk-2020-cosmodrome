@@ -31,7 +31,7 @@ function Walker(x, y){
       var d = p5.Vector.dist(this.pos, others[i].pos);
       if (
         d <
-        this.r + others[i].r
+        this.r/2 + others[i].r/2
         //this.r * this.r + others[i].r * others[i].r + 2 * others[i].r * this.r
       ) {
         //if (random(1) < 0.1) {

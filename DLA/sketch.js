@@ -1,4 +1,6 @@
 //http://paulbourke.net/fractals/dla/
+// http://www.flong.com/projects/dendron/
+// https://thecodingtrain.com/CodingChallenges/034-dla.html
 
 // We are going to make this http://paulbourke.net/fractals/dla/dlacircles1.png
 
@@ -33,7 +35,7 @@ function Walker(x, y){
       console.log(d);
       if (
         d <
-        this.r + others[i].r
+        this.r/2 + others[i].r/2
         //this.r * this.r + others[i].r * others[i].r + 2 * others[i].r * this.r
       ) {
         //if (random(1) < 0.1) {
