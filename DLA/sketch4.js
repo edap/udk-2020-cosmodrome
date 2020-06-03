@@ -1,8 +1,11 @@
-// Move the walker in a separate class
-// 8 Change the radius
+// First part:
+// Change the radius, the more walkers become part of the tree, the smaller the global
+// variable radius becomes. 
+// add a shrink variable, and shrink the radius by a certain amount everytime a walker is added
+// to the tree
 
-
-// add a shrink variable, shrik the radius everytime a walker is added
+// Second part:
+// add an ending condition, do not spawn any new walker when the radius is less than 1
 let shrink = 0.99;
 
 let tree = [];
@@ -22,7 +25,6 @@ function Walker(x, y) {
     }
     this.r = radius;
 
-
     this.walk = function () {
         let vel = p5.Vector.random2D();
         this.pos.add(vel);
@@ -30,24 +32,15 @@ function Walker(x, y) {
         this.pos.y = constrain(this.pos.y, 0, height);
     }
 
-
-    // check all the point in the tree, if it is near anything that is in the tree, stuck it
     this.checkStuck = function (others) {
         for (var i = 0; i < others.length; i++) {
-            let d = myDist(this.pos, others[i].pos);
-            if (
-                d <
-                this.r * this.r + others[i].r * others[i].r + 2 * others[i].r * this.r
-            ) {
-                // 7
-                //if (random(1) < 0.1) {
-                this.stuck = true;
-                return true;
-                //break;
-                //}
+            var d = p5.Vector.dist(this.pos, others[i].pos);
+            if ( d < this.r + others[i].r ) {
+              this.stuck = true;
+              return true;
             }
         }
-        return false;
+          return false;
     }
 
     this.setHue = function (hu) {
@@ -61,7 +54,7 @@ function Walker(x, y) {
         } else {
             fill(360, 0, 255);
         }
-        ellipse(this.pos.x, this.pos.y, this.r * 2, this.r * 2);
+        circle(this.pos.x, this.pos.y, this.r * 2);
     }
 }
 
@@ -70,7 +63,6 @@ function setup() {
     colorMode(HSB);
     createCanvas(400, 400);
     background(0)
-    // 8 start from the center again
     tree[0] = new Walker(width / 2, height / 2);
     for (var i = 0; i < maxWalkers; i++) {
         walkers[i] = new Walker();
@@ -92,7 +84,7 @@ function draw() {
         for (let i = walkers.length - 1; i >= 0; i--) {
             walkers[i].walk();
             if (walkers[i].checkStuck(tree)) {
-                // 8, each time a point stick, decrease the radius
+                // Each time a point stick, decrease the radius
                 radius *= shrink;
                 walkers[i].setHue(hu % 360);
                 hu += 2;
@@ -102,7 +94,8 @@ function draw() {
         }
     }
 
-
+    //ending condition
+    // while (walkers.length < maxWalkers) {
     while (walkers.length < maxWalkers && radius > 1) {
         walkers.push(new Walker());
     }
@@ -111,7 +104,6 @@ function draw() {
 
 function randomPoint() {
     var i = floor(random(4));
-
     if (i === 0) {
         var x = random(width);
         return createVector(x, 0);

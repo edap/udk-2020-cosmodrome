@@ -1,23 +1,35 @@
 
 // But... nothing happens, the walker appears randomly on screen, they do not "walk"
-// 2 let's add them to the tree, nIteration each draw call, and let's save them in an array, walkers[]
-// and let's create at the beginning some random walkers
+// Part one: Let's creat an array of maxWalkers that moves randomly until they reach
+// one element in the tree and they get stucked. We will create them in the setup method
+// they will walk in the draw method
+
+// Part two: But it is super slow, it takes a lot of time before all the walkers
+// reach the center!
+// What we can do, is to make a loop that enclose the loop in the draw method, that one that contains
+// the checkStuck method. We will loop nIteration times
+// The other things that we can do, shortly after, is to make a loop that spawns new Walkers
+// as soon as the total number of walkers is under maxWalkers.
+// We are going to have a problem now, the algorithm does not have an ending condition anymore,
+// and new walkers keep get adding on the border of the canvas, although the tree already occupies the screen.
+// We will fix this later when we are going to change the radius. But first, let's add some colors!
 
 
 let tree = [];
-let radius = 16;
+let radius = 8;
 
-//2 
-let nIteration = 20;
+// Part 1
 let maxWalkers = 50;
 let walkers = [];
 
+// Part 2
+let nIteration = 20;
+
 
 function Walker(x, y){
-  // Depending on how many arguments we pass, we decide if this is a walker that moves or if it is the point in the middle
   if (arguments.length == 2) {
     this.pos = createVector(x, y);
-    this.stuck = true; // this is our Walker in the middle
+    this.stuck = true;
   } else {
     this.pos = randomPoint();
     this.stuck = false;
@@ -25,39 +37,30 @@ function Walker(x, y){
   this.r = radius;
 
 
-  // check all the point in the tree, if it is near anything that is in the tree, stuck it
   this.checkStuck = function(others) {
     for (var i = 0; i < others.length; i++) {
       var d = p5.Vector.dist(this.pos, others[i].pos);
-      if (
-        d <
-        this.r/2 + others[i].r/2
-        //this.r * this.r + others[i].r * others[i].r + 2 * others[i].r * this.r
-      ) {
-        //if (random(1) < 0.1) {
+      if (d < this.r + others[i].r) {
         this.stuck = true;
         return true;
-        // break;
-        //}
       }
     }
     return false;
   }
 
   this.show = function() {
-    strokeWeight(this.r);
-    stroke(255);
-    point(this.pos.x, this.pos.y);
+    fill(255);
+    circle(this.pos.x, this.pos.y, this.r*2);
   }
 
   this.walk = function(){
     let vel = p5.Vector.random2D();
+    // vel = vel.mult(noise(millis())*50); // uncomment to move faster
     this.pos.add(vel);
-    this.pos.x = constrain(this.pos.x, 0, width); // keep the point on screen
-    this.pos.y = constrain(this.pos.y, 0, height); // keep the point in the screen
+    this.pos.x = constrain(this.pos.x, 0, width);
+    this.pos.y = constrain(this.pos.y, 0, height);
   }
 }
-
 
 function setup() {
   createCanvas(400, 400);
@@ -65,7 +68,7 @@ function setup() {
 
   tree[0] = new Walker(width/2, height/2);
 
-  //2 let's position some random walker at the beginning
+  //Part one: let's position some random walker at the beginning
   for (var i = 0; i < maxWalkers; i++) {
     walkers[i] = new Walker();
   }
@@ -80,32 +83,50 @@ function draw() {
     tree[i].show();
   }
 
-  // 2 This is basically the core of the algorithm
-  for (var n = 0; n < nIteration; n++) {
-    for (var i = walkers.length - 1; i >= 0; i--) { // backwards loop, how does it work?
-      walkers[i].walk();
-      if (walkers[i].checkStuck(tree)) {
-        // if a walker get stucked, take it out of the array walkers
-        // and put it into the three array. the tree array is just a collection
-        // a stucked walkers
-        tree.push(walkers[i]);
-        walkers.splice(i,1);
-      }
-    }
-  }
-
-  while (walkers.length < maxWalkers) {
-    walkers.push(new Walker());
-  }
-
-  // 2 draw all the walkers
+  // Part one: draw all the walkers
   for (var i = 0; i < walkers.length; i++) {
     walkers[i].show();
   }
-}
 
-// Member function and functions. This function is like setup and show, they do not belongs to the Walker
-// Position point randomly just on the border.
+  // Part one:
+  // This is basically the core of the algorithm. Once you get this, the rest is just an 
+  // improvement of this part
+  for (var i = walkers.length - 1; i >= 0; i--) { // backwards loop, how does it work?
+    // and why do we loop backwards?
+    // Note for the teacher, explain which problem do you find when looping forward and removing
+    // element at the current iteration index => all the index get update and the next one it
+    // is not what it is supposed to be anymore. It is way easier to loop backwards
+    // and remove the current element, because the next element in the loop they are still
+    // the same and the indexes are still untouched. This is important! Explain on the board.
+    walkers[i].walk();
+    if (walkers[i].checkStuck(tree)) {
+      // if a walker get stucked, take it out of the array walkers array (using splice,
+      // check the JS documentation about this function )
+      // and put it into the three array.
+      // the tree array is just a collection of stucked walkers!
+      tree.push(walkers[i]);
+      walkers.splice(i,1);
+    }
+  }
+
+
+  // // Part two: add a loop more
+  // for (var n = 0; n < nIteration; n++) {
+  //   for (var i = walkers.length - 1; i >= 0; i--) { // backwards loop, how does it work?
+  //     walkers[i].walk();
+  //     if (walkers[i].checkStuck(tree)) {
+  //       tree.push(walkers[i]);
+  //       walkers.splice(i,1);
+  //     }
+  //   }
+  // }
+
+  // // Part two, keep spanning workers.
+  // while (walkers.length < maxWalkers) {
+  //   walkers.push(new Walker());
+  // }
+
+}
 
 function randomPoint() {
   var i = floor(random(4));

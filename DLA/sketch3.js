@@ -1,66 +1,52 @@
-// 3 let's differentiate them, add some colors.
-// Define a method setHue, that set the hue of the walker
-
-// 4 let's increase the tree faster
-
+// To add colors we use the HSB color space
+// We add the variable this.hue and the setHue method, we add a global variable hu,
+// to save the current hu
+// and we call the setHue method when a walker get stucked
 
 let tree = [];
-let radius = 6;
-// let nIteration = 20;
-// let maxWalkers = 50;
+let radius = 8;
 let walkers = [];
-//3
-let hu = 0;
-
-// 4
 let nIteration = 200;
 let maxWalkers = 200;
 
+// define a hue gloabal variable
+let hu = 0;
+
 function Walker(x, y){
-  // Depending on how many arguments we pass, we decide if this is a walker that moves or if it is the point in the middle
   if (arguments.length == 2) {
     this.pos = createVector(x, y);
-    this.stuck = true; // this is our Walker in the middle
+    this.stuck = true;
   } else {
     this.pos = randomPoint();
     this.stuck = false;
   }
   this.r = radius;
 
-
-  // check all the point in the tree, if it is near anything that is in the tree, stuck it
   this.checkStuck = function(others) {
     for (var i = 0; i < others.length; i++) {
       var d = p5.Vector.dist(this.pos, others[i].pos);
-      if (
-        d <
-        this.r/2 + others[i].r/2
-        //this.r * this.r + others[i].r * others[i].r + 2 * others[i].r * this.r
-      ) {
-        //if (random(1) < 0.1) {
+      if ( d < this.r + others[i].r ) {
         this.stuck = true;
         return true;
-        // break;
-        //}
       }
     }
     return false;
   }
 
-  // 3
+  // a method to set the color of a walker
   this.setHue = function(hu) {
     this.hu = hu;
   };
 
   this.show = function() {
-    //3
+    // if the walker is stucked, draw it with its color, otherwise white
     noStroke();
     if (this.stuck && typeof this.hu !== 'undefined') {
         fill(this.hu, 255, 100, 200);
       } else {
         fill(360, 0, 255);
       }
-      ellipse(this.pos.x, this.pos.y, this.r * 2, this.r * 2);
+      circle(this.pos.x, this.pos.y, this.r * 2);
 
   }
 
@@ -74,7 +60,7 @@ function Walker(x, y){
 
 
 function setup() {
-  // 3
+  // Set HSB color mode
   colorMode(HSB);
   createCanvas(400, 400);
   background(0)
@@ -90,12 +76,11 @@ function draw() {
     tree[i].show();
   }
 
-  // 2 This is basically the core of the algorithm
   for (var n = 0; n < nIteration; n++) {
-    for (var i = walkers.length - 1; i >= 0; i--) { // backwards loop, how does it work?
+    for (var i = walkers.length - 1; i >= 0; i--) {
       walkers[i].walk();
       if (walkers[i].checkStuck(tree)) {
-        // 3
+        // just a way to cahnge the color rotating on the color wheel
         walkers[i].setHue(hu % 360);
         hu += 2;
         tree.push(walkers[i]);

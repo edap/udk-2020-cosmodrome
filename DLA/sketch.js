@@ -2,10 +2,38 @@
 // http://www.flong.com/projects/dendron/
 // https://thecodingtrain.com/CodingChallenges/034-dla.html
 
-// We are going to make this http://paulbourke.net/fractals/dla/dlacircles1.png
+// We are going to make somthing similar to this http://paulbourke.net/fractals/dla/dlacircles1.png
 
-// How does it work"
-// We know the random walker. The Random walker start from the border, and reach a point.
+// Required knowledge: Exercise about the Random Walker. (classes, randomness, position, velocity, etc..)
+// Diffuse Limited Aggragation simulate a process of growth where something(in this case the walkers), walk toward something else (in this case the tree).
+// When the walker reach the tree, it becomes part of the tree and it does not belong to the walkers anymore.
+// Try to imagine a really cold element, the tree, that whenever get in contact with something that moves it frozes it.
+// In the process that we are going to simulate, the walkers walk randomly from the border of the canvas, the first point of the tree
+// is in the middle of the screen
+
+// First part:
+// Let's create a point in the middle of the screen, and lets put it inside the tree array
+// To create this point, we will use the walker class
+
+// Second part:
+// lets now create a single walker that moves randomly. Let's add the method walk to the Walker class and
+// let's move it. Let's constrain it's movement inside the screen
+// We will use the same class, the Walker class, to create a Walker and the first elment of the tree
+// in the constructor, we use arguments.length to detect if the element has to be position in a part of the screen
+// and it is stuck, or if it is free to wander
+// At this point, you should have one element in the middle of the screen and a point appearing in random position in the screen
+
+// Third part
+// create the function randomPoint that create points just on the borders of the canvas
+
+// Fourth part. 
+// A walker should stop whenever it touches the tree. How do we find this moment? comparing
+// the distance between the position of the walker and all the point inside the tree.
+// Let's write the method checkStuck. (note for the teacher: It is going to be used in sketch2)
+
+// The elements inside the tree and the element inside the walkers are both instances of the same class
+// Let's start to create the first element of our tree
+// The Random walker start from the border, and reach a point.
 // when it reach a point, the RW stops, and a new random walker starts from the border.
 
 // 1 my final result is stored in a collection of walkers, let's call it tree.
@@ -15,7 +43,7 @@
 
 
 let tree = [];
-let radius = 16;
+let radius = 8;
 
 
 function Walker(x, y){
@@ -32,26 +60,17 @@ function Walker(x, y){
   this.checkStuck = function(others) {
     for (var i = 0; i < others.length; i++) {
       var d = p5.Vector.dist(this.pos, others[i].pos);
-      console.log(d);
-      if (
-        d <
-        this.r/2 + others[i].r/2
-        //this.r * this.r + others[i].r * others[i].r + 2 * others[i].r * this.r
-      ) {
-        //if (random(1) < 0.1) {
+      if (d <this.r + others[i].r) {
         this.stuck = true;
         return true;
-        // break;
-        //}
       }
     }
     return false;
   }
 
   this.show = function() {
-    strokeWeight(this.r);
-    stroke(255);
-    point(this.pos.x, this.pos.y);
+    fill(255);
+    circle(this.pos.x, this.pos.y, this.r*2);
   }
 
   this.walk = function(){
@@ -76,9 +95,7 @@ function draw() {
 
   // draw the tree.
   for (let i = 0; i< tree.length;  i++) {
-    strokeWeight(tree[i].r);
-    stroke(255);
-    point(tree[i].pos.x, tree[i].pos.y);
+    tree[i].show();
   }
 
   let walker = new Walker();

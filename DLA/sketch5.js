@@ -1,134 +1,139 @@
 // What can I do to have more variation?
-// 6 what if I add trees just at the bottom ? and we add walker in the setup method just at the top?
-
+// what if I add starting trees just at the bottom ? and we add walker in the setup method just at the top?
+// what if I add walkers just on one side (see randomBottom function)
 
 // have a look at http://paulbourke.net/fractals/dla/, particular to this image: http://paulbourke.net/fractals/dla/dla7.gif
 // what if you add the trees at the beginning(let's call them seeds) around a circle (using polar coordinates maybe ;)
 
 
+let shrink = 0.99;
+
 let tree = [];
-let radius = 6;
+let radius = 8;
 let walkers = [];
 let hu = 0;
-let nIteration = 200;
-let maxWalkers = 1000;
+let nIteration = 50;
+let maxWalkers = 100;
 
-function Walker(x, y){
-  if (arguments.length == 2) {
-    this.pos = createVector(x, y);
-    this.stuck = true; 
-  } else {
-    this.pos = randomTop();
-    this.stuck = false;
-  }
-  this.r = radius;
-
-
-  // check all the point in the tree, if it is near anything that is in the tree, stuck it
-  this.checkStuck = function(others) {
-    for (var i = 0; i < others.length; i++) {
-      let d = myDist(this.pos, others[i].pos);
-      if (
-        d <
-        this.r * this.r + others[i].r * others[i].r + 2 * others[i].r * this.r
-      ) {
-        //if (random(1) < 0.1) {
+function Walker(x, y) {
+    if (arguments.length == 2) {
+        this.pos = createVector(x, y);
         this.stuck = true;
-        return true;
-        // break;
-        //}
-      }
+    }else {
+        //this.pos = randomPoint();
+        this.pos = randomBottom();
+        this.stuck = false;
     }
-    return false;
-  }
+    this.r = radius;
 
-  this.setHue = function(hu) {
-    this.hu = hu;
-  };
+    this.walk = function () {
+        let vel = p5.Vector.random2D();
+        this.pos.add(vel);
+        this.pos.x = constrain(this.pos.x, 0, width);
+        this.pos.y = constrain(this.pos.y, 0, height);
+    }
 
-  this.show = function() {
-    noStroke();
-    if (this.stuck) {
-        fill(this.hu, 255, 100, 200);
-      } else {
-        fill(360, 0, 255);
+    this.checkStuck = function (others) {
+      for (var i = 0; i < others.length; i++) {
+        var d = p5.Vector.dist(this.pos, others[i].pos);
+        if ( d < this.r + others[i].r ) {
+          this.stuck = true;
+          return true;
+        }
       }
-      ellipse(this.pos.x, this.pos.y, this.r * 2, this.r * 2);
-  }
+      return false;
+    }
 
-  this.walk = function(){
-    let vel = p5.Vector.random2D();
-    this.pos.add(vel);
-    this.pos.x = constrain(this.pos.x, 0, width);
-    this.pos.y = constrain(this.pos.y, 0, height);
-  }
+    this.setHue = function (hu) {
+        this.hu = hu;
+    };
+
+    this.show = function () {
+        noStroke();
+        if (this.stuck && typeof this.hu !== 'undefined') {
+            fill(this.hu, 255, 100, 200);
+        } else {
+            fill(360, 0, 255);
+        }
+        ellipse(this.pos.x, this.pos.y, this.r * 2, this.r * 2);
+    }
 }
 
-
 function setup() {
-  colorMode(HSB);
-  createCanvas(400, 400);
-  background(0)
-  // tree[0] = new Walker(width/2, height/2);
+    colorMode(HSB);
+    createCanvas(400, 400);
+    background(0)
 
-  // 5 a line of three at the very bottom
-  for(let x = 0; x< width; x+= radius*2) {
-    tree.push(new Walker(x, height));
-  }
-  for (var i = 0; i < maxWalkers; i++) {
-    walkers[i] = new Walker();
-  }
+    // add trees on the top
+    for (var i = 0; i < width; i+= 40) {
+      tree.push(new Walker(i, 50));
+    }
+
+    for (var i = 0; i < maxWalkers; i++) {
+        walkers[i] = new Walker();
+    }
 }
 
 function draw() {
-  background(0);
-  for (let i = 0; i< tree.length;  i++) {
-    tree[i].show();
-  }
-
-  for (let n = 0; n < nIteration; n++) {
-    for (let i = walkers.length - 1; i >= 0; i--) {
-      walkers[i].walk();
-      if (walkers[i].checkStuck(tree)) {
-        walkers[i].setHue(hu % 360);
-        hu += 2;
-        tree.push(walkers[i]);
-        walkers.splice(i,1);
-      }
+    background(0);
+    for (let i = 0; i < tree.length; i++) {
+        tree[i].show();
     }
-  }
 
-//   while (walkers.length < maxWalkers) {
-//     walkers.push(new Walker());
-//   }
+    for (var i = 0; i < walkers.length; i++) {
+        walkers[i].show();
+    }
 
-  for (var i = 0; i < walkers.length; i++) {
-    walkers[i].show();
-  }
+    for (let n = 0; n < nIteration; n++) {
+        for (let i = walkers.length - 1; i >= 0; i--) {
+            walkers[i].walk();
+            if (walkers[i].checkStuck(tree)) {
+                radius *= shrink;
+                walkers[i].setHue(hu % 360);
+                hu += 2;
+                tree.push(walkers[i]);
+                walkers.splice(i, 1);
+            }
+        }
+    }
+
+    while (walkers.length < maxWalkers && radius > 1) {
+        walkers.push(new Walker());
+    }
 }
 
 
 function randomPoint() {
-  var i = floor(random(4));
-
-  if (i === 0) {
-    var x = random(width);
-    return createVector(x, 0);
-  } else if (i === 1) {
-    var x = random(width);
-    return createVector(x, height);
-  } else if (i === 2) {
-    var y = random(height);
-    return createVector(0, y);
-  } else {
-    var y = random(height);
-    return createVector(width, y);
-  }
+    var i = floor(random(4));
+    if (i === 0) {
+        var x = random(width);
+        return createVector(x, 0);
+    } else if (i === 1) {
+        var x = random(width);
+        return createVector(x, height);
+    } else if (i === 2) {
+        var y = random(height);
+        return createVector(0, y);
+    } else {
+        var y = random(height);
+        return createVector(width, y);
+    }
 }
 
 function randomTop() {
     var x = random(width);
     return createVector(x, 0);
+}
+
+function myDist(a, b) {
+    var dx = b.x - a.x;
+    var dy = b.y - a.y;
+    return dx * dx + dy * dy;
+}
+
+function randomBottom() {
+    var x = random(width);
+    return createVector(x, height);
 }
 
 
