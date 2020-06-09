@@ -1,6 +1,7 @@
 
-// 1 what if we create a lot of walls?
-// 2 what if we shoot a lot of rays in all the direction?
+
+// for all the rays check collision with all the walls
+// draw infinite rays if there is no collision
 
 function Boundary(x1,y1,x2,y2){
     this.a = createVector(x1, y1);
@@ -12,7 +13,6 @@ function Boundary(x1,y1,x2,y2){
     }
   }
   
-  // let change the constructor. A ray needs a position and a direction
   function Ray(pos, dir){
     this.pos = pos;
     this.dir = dir;
@@ -68,7 +68,6 @@ function Boundary(x1,y1,x2,y2){
   function setup() {
     createCanvas(400, 400);
 
-    // 1 let's add new walls
     for (let i = 0; i < 5; i++) {
         let x1 = random(width);
         let x2 = random(width);
@@ -88,21 +87,16 @@ function Boundary(x1,y1,x2,y2){
     background(0);
     fill(0,255,0);
     circle(mouseX, mouseY, 4);
-    // draw them
     for (let wall of walls) {
         wall.show();
     }
 
-    // they follow the mouse and they point in all the directions
     let rays = makeRays();
-    for (let ray of rays) {
-        ray.show();
-    }
+    checkForWalls(walls, rays);
   }
 
 
   function makeRays(){
-    //2 
     let pos = createVector(mouseX, mouseY);
     let rays = [];
     for (let a = 0; a < 360; a += 1) {
@@ -110,6 +104,28 @@ function Boundary(x1,y1,x2,y2){
       rays.push(new Ray(pos, dir));
     }   
     return rays;
-    // we could speed up this, and simply update pos and dir of the rays
   }
 
+  function checkForWalls(walls, rays){
+    for (let i = 0; i < rays.length; i++) {
+        const ray = rays[i];
+        let closest = null;
+        let record = Infinity;
+        for (let wall of walls) {
+            const pt = ray.cast(wall);
+            if (pt) {
+                const d = p5.Vector.dist(ray.pos, pt);
+                if (d < record) {
+                record = d;
+                closest = pt;
+                }
+            }
+        }
+        if (closest) {
+        //colorMode(HSB);
+        //stroke((i + frameCount * 2) % 360, 255, 255, 50);
+            stroke(255, 100);
+            line(ray.pos.x, ray.pos.y, closest.x, closest.y);
+        }
+    }
+  }
