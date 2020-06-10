@@ -4,6 +4,7 @@
 // Add the myDist method. Note for the teacher, explain eucledian distance, the pitagora teorem udes to
 // get the distance between two points. Draw the formula at the board and remove the square root
 
+
 let shrink = 0.99;
 let tree = [];
 let radius = 8;

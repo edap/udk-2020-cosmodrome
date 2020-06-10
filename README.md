@@ -36,9 +36,6 @@ The course is divided in three parts, space subdivision, space exploration and s
 
 - 2D Ray casting
 
-- Travelling salesman problem
-
-- Pathfinding algorithm
 
 ### Space Creation
 
@@ -48,7 +45,7 @@ The course is divided in three parts, space subdivision, space exploration and s
 
 - Sandpiles
 
-- Game of Life
+- Cellular automata & Game of Life
 
 
 
