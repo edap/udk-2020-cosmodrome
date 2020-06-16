@@ -36,10 +36,10 @@ The course is divided in three parts, space subdivision, space exploration and s
 
 - 2D Ray casting
 
+- Boids
+
 
 ### Space Creation
-
-- A simple starfield
 
 - Maze generator
 
