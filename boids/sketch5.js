@@ -1,6 +1,8 @@
 // Now all together.
 
-// what could you add? a slider for max force, max sedd pe
+// what could you add? a slider for max force, max speed, perception radius.
+// change color depending on acc, vel or pos
+// add interaction, etc
 
 let alignSlider, cohesionSlider, separationSlider;
 
