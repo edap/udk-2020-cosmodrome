@@ -59,8 +59,11 @@ function render(){
       } else if (num == 3) {
         col = colors[3];
       }
-      console.log(col);
-      pixels[x+y*width] = col; 
+      // each pixel on the screen has 4 values. R, G, B and alpha. That's why the * 4
+      let index = (x + y*width)  * 4;
+      pixels[index] =  col[0];
+      pixels[index + 1] =  col[1];
+      pixels[index + 2] =  col[2];
     }
   }
   updatePixels(); // means: hey computer, refresh all the pixels inside the canvas with the new value inside the pixels array
