@@ -35,6 +35,7 @@ let colors = [
 ];
  
 function setup() {
+  pixelDensity(1);
   // 2D array
   createCanvas(6, 6);
   sandpiles = new Array(width).fill().map(i => new Array(height).fill(0));
