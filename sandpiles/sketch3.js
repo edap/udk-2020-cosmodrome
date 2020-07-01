@@ -1,4 +1,10 @@
 // Let's make things faster
+
+
+// What if:
+// the grain of sand get pour from the top and fall down?
+// there is a force affecting the grain of sand?
+
 let sandpiles;
 let nextpiles;
 let defaultColor = [255, 0, 0];
