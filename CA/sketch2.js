@@ -7,29 +7,34 @@
 // which role could color play in this simulation
 
 let cells;
-let cell_side = 10;
+let cell_side = 2;
 let generation = 0;
-let ruleset = [0,1,0,1,1,0,1,0];
+let ruleset = [0, 1, 0, 1, 1, 0, 1, 0];
+
+
 // maximum 256 rules    
 // https://plato.stanford.edu/entries/cellular-automata/supplement.html
 // https://en.wikipedia.org/wiki/Rule_30
+//ruleset = [0, 0, 0, 1, 1, 1, 1, 0];
 
 
 
 function setup() {
   createCanvas(800, 800);
   background(0)
-  frameRate(1); // remove this line
+  //frameRate(1); // remove this line
   let ncells = floor(width/cell_side);
   cells = new Array(ncells).fill().map(i => 0); // we did this initialization with the map function in the last lesson
   cells[cells.length/2] = 1;
+  // cells[cells.length/4] = 1;
+  // cells[3*cells.length/4] = 1;
 
   console.log(cells);
 }
 
 function draw() {
   // what if we make more iterations, like 100?
-  if (generation < 10) {
+  if (generation < 800) {
     generate();
     for (let i = 0; i < cells.length; i++) {
       if (cells[i] == 0) fill(255);
