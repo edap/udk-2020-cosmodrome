@@ -53,3 +53,7 @@ The course is divided in three parts, space subdivision, space exploration and s
 
 Every exercise it has its own folder. Just open with your browser the index.html page
 
+## Credits
+
+Most of the examples in this repository are taken from the serie [The Coding Train](https://thecodingtrain.com/) by  Daniel Shiffman. A huge thanks to him, for making this knowledge more accessible for beginners.
+
